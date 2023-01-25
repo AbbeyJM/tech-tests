@@ -5,17 +5,24 @@ class Statement {
     }
 
     addDeposit(deposit) {
-        const newDeposit = deposit.returnDeposit()
+        const {amount, date, type} = deposit.returnDeposit()
 
-        this.balance += newDeposit.amount
-        this.record = [...this.record,
-            {
-                date: newDeposit.date,
-                amount: newDeposit.amount,
-                type: "credit",
-                balance: this.balance,
-            }]
-    }
+        if (type === 'credit') {
+            this.balance += amount
+        }
+        else if (type === 'debit') {
+            this.balance -= amount
+        }
+
+        this.record = [{
+            date,
+            amount,
+            type,
+            balance: this.balance,
+        },
+        ...this.record, ]
+        }
+            
     getRecord() {
         return this.record
     }
